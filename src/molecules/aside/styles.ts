@@ -37,7 +37,7 @@ export const Link = styled.p<{ selected: boolean }>`
   font-weight: bold;
 
   &:hover {
-    color: black;
+    color: black; 
   }
 
   img {
@@ -46,10 +46,15 @@ export const Link = styled.p<{ selected: boolean }>`
     color: #2D60FF;
     filter: ${(props) =>
       props.selected
-      ? "invert(33%) sepia(95%) saturate(2547%) hue-rotate(208deg) brightness(98%) contrast(95%)"
-      : "invert(79%) sepia(3%) saturate(0%) hue-rotate(45deg) brightness(94%) contrast(85%)"
-    };
+        ? "invert(33%) sepia(95%) saturate(2547%) hue-rotate(208deg) brightness(98%) contrast(95%)"
+        : "invert(79%) sepia(3%) saturate(0%) hue-rotate(45deg) brightness(94%) contrast(85%)"};
+    transition: filter 0.3s ease;
   }
+
+  &:hover img {
+    filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+  }
+
 `;
 
 export const LogoutBox = styled.div`
