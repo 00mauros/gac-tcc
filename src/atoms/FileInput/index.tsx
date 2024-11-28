@@ -1,23 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import * as S from "./styles";
+import * as T from "./types";
 
-const FileInput: React.FC = () => {
-  const [fileName, setFileName] = useState<string | null>(null);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
-    if (file) {
-      setFileName(file.name);
-    }
-  };
+const FileInput: React.FC<T.FileInputProps> = ({ onChange, fileName }) => {
 
   return (
     <div>
-      <S.Label>Anexar arquivo (.pdf ou .docx):</S.Label>
+      <S.Label>Anexar arquivo (.pdf ou .docx): *</S.Label>
       <S.FileInputContainer>
         <S.HiddenInput
           type="file"
-          onChange={handleFileChange}
+          onChange={onChange}
           accept=".pdf,.docx"
           id="file-upload"
         />

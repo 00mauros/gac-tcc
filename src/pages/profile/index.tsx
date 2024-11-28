@@ -6,10 +6,9 @@ import api from "../../services/api.ts";
 const Profile = () => {
     const [profile, setProfile] = useState<any>()
     useEffect(() => {
-        api.get("/user").then((response) => {
-            setProfile(response.data[0])
-        }).catch((error) => {
-            console.log(error)
+        api.get("/user/info").then((response) => {
+            setProfile(response.data)
+        }).catch(() => {
         })
     }, [])
     return (
@@ -18,8 +17,8 @@ const Profile = () => {
             <S.ProfileImg src={profilePhoto}  alt="profile-photo"/>
             <S.UserInfos>
                 <p><b>Nome: </b>{profile?.name} </p>    
-                {/* <p><b>Curso: </b> Sistemas de Informação</p>    
-                <p><b>Matrícula: </b> 4002-8922</p>     */}
+                {profile?.courses?.[0]?.courseName && <p><b>Curso: </b> {profile?.courses?.[0]?.courseName}</p>}    
+                {profile?.registration && <p><b>Matrícula: </b> {profile?.registration}</p>}
                 <p><b>E-mail: </b> {profile?.email}</p>    
             </S.UserInfos>
         </S.Content>

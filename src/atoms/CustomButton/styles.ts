@@ -5,7 +5,7 @@ export const Button = styled.button<{color: string, hasborder: boolean, height?:
     background-color: ${({ color }) => color};
     height: ${({ height }) => height ? height : "2.5rem"};
     border: 0;
-    border-radius: 15px;
+    border-radius: 0.9375rem;
     font-weight: 700;
     border: ${({ hasborder }) => hasborder ? "1px solid #1D1D1D" : "border: 1px solid #2D60FF"};
     color: ${({ hasborder }) => hasborder ? "#000000" : "#FFFFFF"};
@@ -16,7 +16,7 @@ export const Button = styled.button<{color: string, hasborder: boolean, height?:
 `;
 
 export const Icon = styled.img`
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.25rem;
+    height: 0.9375rem;
     margin-right: 0.5rem;
 `

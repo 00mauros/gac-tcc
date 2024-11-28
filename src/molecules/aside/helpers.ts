@@ -7,7 +7,7 @@ import Manager from "../../assets/icons/computer-icon.svg";
 
 export function getIcon(iconName: string) {
   switch (iconName) {
-    case "home":
+    case "dashboard":
       return homeIcon;
     case "activities":
       return activitiesIcon;

@@ -4,4 +4,5 @@ export interface InputProps {
     type: string;
     onChange: (value: any) => void;
     light?: boolean
+    value?: any
 }

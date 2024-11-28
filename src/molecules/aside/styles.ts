@@ -7,10 +7,11 @@ export const AsideContainer = styled.aside`
   padding: 0 2.5rem;
   background-color: #ffffff;
   height: 100%;
-  width: 15.625rem;
+  width: 10.625rem;
   z-index: 1;
   justify-content: space-between;
   position: fixed;
+  box-shadow: 0rem 0.3125rem 0.625rem rgba(0, 0, 0, 0.5);
 
   @media screen and (min-width: 600px){
     position: relative;
@@ -33,6 +34,11 @@ export const Link = styled.p<{ selected: boolean }>`
   display: flex;
   gap: 1.625rem;
   cursor: pointer;
+  font-weight: bold;
+
+  &:hover {
+    color: black;
+  }
 
   img {
     height: 1.375rem;

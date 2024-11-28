@@ -1,11 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
 
 import * as S from "./styles"
 import * as H from "./helpers"
+import api from "../../services/api";
 
 const Aside = () => {
-    const pages = [{ title: "Página Inicial", url: "/dashboard", icon: "page" },
+    const [filteredPages, setFilteredPages] = useState<any>()
+    const pages = [{ title: "Página Inicial", url: "/dashboard", icon: "dashboard" },
     { title: "Avaliações", url: "/evaluation", icon: "evaluation" },
     { title: "Atividades", url: "/activities", icon: "activities" },
     { title: "Gerenciamento", url: "/management", icon: "management" },
@@ -13,6 +15,14 @@ const Aside = () => {
 
     const [currentPage, setCurrentPage] = useState(window.location.pathname)
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        api.get(`/user/info`).then((response) => {
+            setFilteredPages(pages.filter(page => response.data.permissions.includes(page.icon)));
+        }).catch(() => {
+        })
+    }, [])
 
     const handleCLick = (url: string) => () => {
         navigate(url)
@@ -28,7 +38,7 @@ const Aside = () => {
     return (
         <S.AsideContainer>
             <S.ItemsBox>
-                {pages.map((item) =>
+                {filteredPages?.map((item: any) =>
                     <S.Link key={item.title} selected={currentPage === item.url} onClick={handleCLick(item.url)}>
                         <img src={H.getIcon(item.icon)} alt="aside-icon" />
                         {item.title}

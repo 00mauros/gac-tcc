@@ -1,7 +1,7 @@
 import * as S from "./styles";
 import * as T from "./types";
 
-const Input = ({ label, type, placeholder, onChange, light }: T.InputProps): JSX.Element => {
+const Input = ({ label, type, placeholder, onChange, light, value }: T.InputProps): JSX.Element => {
     return (
         <S.InputContainer>
             <S.Label>{label}</S.Label>
@@ -10,6 +10,7 @@ const Input = ({ label, type, placeholder, onChange, light }: T.InputProps): JSX
                 placeholder={placeholder}
                 onChange={onChange}
                 light={light}
+                value={value}
             />
         </S.InputContainer>
     );

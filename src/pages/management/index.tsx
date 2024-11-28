@@ -2,21 +2,60 @@ import { useEffect, useState } from "react";
 import { CustomButton } from "../../atoms/CustomButton/index.tsx";
 import Modal from "../../molecules/modal/index.tsx";
 import Trash from "../../assets/icons/trash-icon.png";
+import openIcon from "../../assets/icons/openIcon.png";
+import trashIcon from "../../assets/icons/trash-icon.png";
 
 import * as S from "./styles.ts";
+import * as H from "./helpers.ts";
 import api from "../../services/api.ts";
 
 const Management = () => {
     const userId = sessionStorage.getItem("userId");
     const [selected, setSelected] = useState(0);
     const [modal, setModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [editModal, setEditModal] = useState(false);
+    const [measurers, setMeasurers] = useState<any>();
     const [courses, setCourses] = useState<any>();
+    const [courseId, setCourseId] = useState<string>();
+    const [categories, setCategories] = useState<any>();
 
     useEffect(() => {
         window.addEventListener("closeModal", (event: any) => {
             setModal(event.detail.isOpenModal);
+            setDeleteModal(false);
+            setEditModal(false);
         })
     }, []);
+
+    useEffect(() => {
+        window.addEventListener("refetchItems", (event: any) => {
+            if (event.detail.type === "course") getCourses();
+            if (event.detail.type === "category") getCategory();
+            if (event.detail.type === "measurer") getMeasurer();
+        })
+    }, []);
+
+    const getMeasurer = () => {
+        api.get(`/user`).then((response) => {
+            const admUsers = response.data.filter((user: any) => user.isAdmin == true)
+            setMeasurers(admUsers)
+        }).catch(() => {
+        })
+    }
+    const getCourses = () => {
+        api.get(`/user/allCourses`).then((response) => {
+            setCourses(response.data)
+        }).catch(() => {
+        })
+    }
+
+    const getCategory = () => {
+        api.get(`/category`).then((response) => {
+            setCategories(response.data)
+        }).catch(() => {
+        })
+    }
 
     const handleModalType = () => {
         switch (selected) {
@@ -32,20 +71,39 @@ const Management = () => {
     }
 
     useEffect(() => {
-        api.get(`/user/${userId}/course`).then((response) => {
-            console.log(response.data)
-            setCourses(response.data)
-        }).catch((error) => {
-            console.log(error)
-        })
+        getMeasurer();
+        getCourses();
+        getCategory();
     }, [selected]);
 
-    const handleDeleteCourse = (id: any) => {
-        api.delete(`/user/${userId}/course/${id}`).then((response) => {
-            console.log(response.data)
-        }).catch((error) => {
-            console.log(error)
+    const handleDeleteMeasurer = (id: string) => {
+        api.delete(`/user/${id}`).then(() => {
+            H.handleAlert("success", "Deletado com sucesso!")
+            getMeasurer();
+        }).catch(() => {
+            H.handleAlert("error", "Não foi possível deletar!")
         })
+        setDeleteModal(false);
+    }
+    const handleDeleteCourse = () => {
+        api.delete(`/user/${userId}/course/${courseId}`).then(() => {
+            H.handleAlert("success", "Deletado com sucesso!")
+            H.refetchItems("course")
+        }).catch(() => {
+            H.handleAlert("error", "Não foi possível deletar!")
+        })
+        setDeleteModal(false);
+    }
+
+    const handleDeleteCategory = (id: string) => {
+        api.delete(`/category/${id}`).then(() => {
+            H.handleAlert("success", "Deletado com sucesso!")
+            setDeleteModal(false)
+            H.refetchItems("category")
+        }).catch(() => {
+            H.handleAlert("error", "Não foi possível deletar!")
+        })
+        setDeleteModal(false);
     }
 
     return (
@@ -79,20 +137,29 @@ const Management = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Mauros Reis FIlho</td>
-                            <td>mauros@teste.com</td>
-                            <td>40028922</td>
-                            <td>✅</td>
-                            <td>🗑️</td>
-                        </tr>
-                        <tr>
-                            <td>Mauros Reis FIlho</td>
-                            <td>mauros@teste.com</td>
-                            <td>40028922</td>
-                            <td>✅</td>
-                            <td>🗑️</td>
-                        </tr>
+                        {measurers ? measurers.map((measurer: any) => (
+                            <tr key={measurer.id}>
+                                {deleteModal && <Modal handleDelete={() => handleDeleteMeasurer(measurer?.id)} type="confirmation" />}
+                                {editModal && <Modal type="addMeasurer" initialMeasurerValue={measurer} />}
+                                <td>{measurer.name}</td>
+                                <td>{measurer.email}</td>
+                                <td>{measurer.registration}</td>
+                                <td><img
+                                    onClick={() => {
+                                        setEditModal(true);
+                                    }}
+                                    src={openIcon}
+                                    alt="OpenIcon"
+                                /></td>
+                                <td><img
+                                    onClick={() => {
+                                        setDeleteModal(true)
+                                    }}
+                                    src={trashIcon}
+                                    alt="trashIcon"
+                                /></td>
+                            </tr>)) : []}
+                        {measurers?.length == 0 && <p>Nenhum avaliador encontrado.</p>}
                     </tbody>
                 </S.CustomTable>
             }
@@ -106,13 +173,15 @@ const Management = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {courses.map((course: any) => (
-                            <tr>
-                                <td>{course?.courseName}</td>
-                                <td><img onClick={() => handleDeleteCourse(course?.id)} src={Trash} alt="trash-icon" /></td>
-                            </tr>
-                        ))
-                        }
+                        {courses ? courses.map((course: any) => (
+                            <>
+                                {deleteModal && <Modal handleDelete={() => handleDeleteCourse()} type="confirmation" />}
+                                <tr>
+                                    <td>{course?.courseName}</td>
+                                    <td><img onClick={() => { setCourseId(course?.id), setDeleteModal(true) }} src={Trash} alt="trash-icon" /></td>
+                                </tr>
+                            </>
+                        )) : []}
                         {courses.length === 0 && <p>Nenhum curso encontrado</p>}
                     </tbody>
                 </S.CustomTable>
@@ -127,16 +196,23 @@ const Management = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Categoria 1 </td>
-                            <td>✅</td>
-                            <td>🗑️</td>
-                        </tr>
-                        <tr>
-                            <td>Categoria 2 </td>
-                            <td>✅</td>
-                            <td>🗑️</td>
-                        </tr>
+                        {categories ? categories.map((category: any) => (
+                            <>
+                                {deleteModal && <Modal handleDelete={() => handleDeleteCategory(category?.id)} type="confirmation" />}
+                                {editModal && <Modal type="addCategory" />}
+                                <tr>
+                                    <td>{category?.category}</td>
+                                    <td><img
+                                        onClick={() => setEditModal(true)}
+                                        src={openIcon} alt="open-icon" /></td>
+                                    <td><img
+                                        onClick={() => {
+                                            setDeleteModal(true);
+                                        }}
+                                        src={Trash} alt="trash-icon" /></td>
+                                </tr>
+                            </>
+                        )) : []}
                     </tbody>
                 </S.CustomTable>
             }

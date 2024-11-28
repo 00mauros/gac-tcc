@@ -1,9 +1,16 @@
 import AppRoutes from './routes';
 import MainTemplate from './organisms/MainTemplate';
 import LoginTemplate from './organisms/LoginTemplate';
+import { useEffect, useState } from 'react';
 
 const App = () => {
-  const isLoginRoute = window.location.pathname === '/login' || window.location.pathname === '/register';
+  const [isLoginRoute, setIsLoginRoute] = useState<boolean>(false);
+  
+  useEffect(() => {
+    const pathNames = ['/', '/login', '/register'];
+    const isLoginRoute = pathNames.includes(window.location.pathname);
+    setIsLoginRoute(isLoginRoute);
+  }, []);
 
   return (
     <>

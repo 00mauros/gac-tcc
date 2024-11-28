@@ -13,7 +13,7 @@ export const HeaderOptions = styled.section`
 `;
 
 export const TextOptions = styled.p<{ selected?: boolean }>`
-  color: ${(props) => (props.selected ? "#2D60FF" : "##B1B1B1")};
+  color: ${(props) => (props.selected ? "#2D60FF" : "#B1B1B1")};
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -28,6 +28,7 @@ export const ButtonAndHoursContainer = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 1.5625rem;
+  margin-bottom: 0.8rem;
 
   button {
     width: 9.375rem;
@@ -41,10 +42,9 @@ export const ButtonAndHoursContainer = styled.div`
 
 export const HoursText = styled.p`
   font-size: 1.125rem;
-  font-weight: 600;
 
   b {
-    color: #ff0000c9;
+    color: #2D60FF;
     font-weight: 600;
   }
 `;

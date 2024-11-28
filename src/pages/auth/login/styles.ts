@@ -6,7 +6,7 @@ export const Form = styled.form<{ isMeasurer?: boolean }>`
   background-color: #ffffff;
   width: 90%;
   max-width: 25rem;
-  height: ${(props) => (props.isMeasurer ? "392px" : "34.5625rem")};
+  height: 30rem;
   margin: auto;
   position: relative;
   top: 10rem;

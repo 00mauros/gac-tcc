@@ -16,9 +16,17 @@ export const Container = styled.section`
 export const Content = styled.section`
   flex: 1;
   padding: 2rem;
-  border-radius: 25px;
+  border-radius: 1.5625rem;
   background-color: white;
-  margin: 30px;
+  margin: 1.875rem;
+  box-shadow: 0rem 0.3125rem 0.625rem rgba(0, 0, 0, 0.5);
+  overflow-y: auto; 
+
+  &::-webkit-scrollbar {
+    width: 0; 
+    height: 0; 
+  }
+
 `;
 
 export const MainWrapper = styled.div`

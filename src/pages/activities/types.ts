@@ -1,13 +1,11 @@
-export interface ActivityTableItem {
-    id: string;
-    category: string;
+export interface Activity {
     approval: string;
+    category: string;
     file: string;
-    fileName: string;
     workload: string;
     proof: string;
     startDate: string;
     description: string;
-    comments?: string;
-}
-
+    comments: string[];
+  }
+  

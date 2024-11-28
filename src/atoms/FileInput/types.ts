@@ -1,4 +1,4 @@
-export interface SelectProps {
-    label?: string;
-    onChange: (value: any) => void
+export interface FileInputProps {
+    onChange: (value: any) => void,
+    fileName?: string
 }

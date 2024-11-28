@@ -37,9 +37,8 @@ export const SideBarIcon = styled.img`
 `
 
 export const LogoText = styled.p`
-  font-weight: 900;
   font-size: 2.5rem;
-  font-weight: 600;
+  font-weight: 400;
   display: none;
 
   @media screen and (min-width: 600px){

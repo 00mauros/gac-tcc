@@ -109,7 +109,13 @@ export const DetailLink = styled.a`
 
 export const CheckboxContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
   align-items: center;
+
+  img {
+    cursor: pointer;
+  }
 `;
 
 export const Checkbox = styled.input.attrs({ type: "checkbox" })`

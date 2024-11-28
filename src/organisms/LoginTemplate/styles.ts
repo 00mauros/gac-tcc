@@ -24,11 +24,3 @@ export const Content = styled.section`
   );
 `;
 
-export const SatoroGojo = styled.img`
-  width: 540px;
-  height: 715px;
-  position: absolute; 
-  right: 0; 
-  bottom: 0;
-  z-index: 1;
-`;

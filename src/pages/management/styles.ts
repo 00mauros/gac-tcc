@@ -13,7 +13,7 @@ export const HeaderOptions = styled.section`
 `;
 
 export const TextOptions = styled.p<{ selected?: boolean }>`
-  color: ${(props) => (props.selected ? "#2D60FF" : "##B1B1B1")};
+  color: ${(props) => (props.selected ? "#2D60FF" : "#B1B1B1")};
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -66,10 +66,14 @@ export const CustomTable = styled.table`
     font-weight: 400;
     padding: 0.875rem;
   }
-  
+
   tbody tr {
-    border: 1px solid #343C6A;
+    border: 1px solid #343c6a;
     border-radius: 5px;
+  }
+
+  tbody tr td img {
+    cursor: pointer;
   }
 
   tbody p {

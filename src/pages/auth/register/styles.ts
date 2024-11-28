@@ -6,7 +6,7 @@ export const Form = styled.form`
   background-color: #ffffff;
   width: 90%;
   max-width: 25rem;
-  height: 663px;
+  height: 47rem;
   margin: auto;
   position: relative;
   top: 10rem;
@@ -15,7 +15,7 @@ export const Form = styled.form`
   z-index: 2;
 
   @media screen and (min-width: 1024px) {
-    top: 14%;
+    top: 9%;
   }
 `;
 
